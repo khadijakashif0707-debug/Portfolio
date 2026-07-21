@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Brand Identity Design — Khadija</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,450;0,9..144,600;0,9..144,700;1,9..144,450&family=Work+Sans:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+
+  :root{
+    --paper:      #FBF3EC;
+    --paper-warm: #F5E7DB;
+    --ink:        #2B1D17;
+    --ink-soft:   #6E5A4E;
+    --terracotta: #BE5A38;
+    --terracotta-deep: #9C4429;
+    --blush:      #E7B9A4;
+    --line:       #DCC7B6;
+    --gold:       #A9793F;
+
+    --display: 'Fraunces', serif;
+    --body: 'Work Sans', sans-serif;
+    --mono: 'Space Mono', monospace;
+  }
+
+  *{ margin:0; padding:0; box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--body);
+    overflow-x:hidden;
+  }
+
+  ::selection{ background:var(--terracotta); color:var(--paper); }
+  a{ color:inherit; text-decoration:none; }
+  img{ max-width:100%; display:block; }
+  button{ font-family:inherit; cursor:pointer; }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation-duration:0.01ms !important; transition-duration:0.01ms !important; scroll-behavior:auto !important; }
+  }
+
+  .wrap{ max-width:1280px; margin:0 auto; padding:0 6vw; }
+
+  .eyebrow{
+    font-family:var(--mono);
+    font-size:0.72rem;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--terracotta-deep);
+    display:flex; align-items:center; gap:10px;
+  }
+  .eyebrow::before{ content:""; width:22px; height:1px; background:var(--terracotta-deep); display:inline-block; }
+
+  .reveal{
+    opacity:0; transform:translateY(24px);
+    transition:opacity 0.8s cubic-bezier(.19,1,.22,1), transform 0.8s cubic-bezier(.19,1,.22,1);
+  }
+  .reveal.in{ opacity:1; transform:translateY(0); }
+
+  /* ---------- ambient background ---------- */
+  .ambient{
+    position:fixed; inset:0; z-index:-1; pointer-events:none;
+    background:
+      radial-gradient(60vw 60vw at 82% -10%, rgba(190,90,56,0.14), transparent 60%),
+      radial-gradient(50vw 50vw at -10% 30%, rgba(169,121,63,0.12), transparent 55%),
+      var(--paper);
+  }
+  .ambient::after{
+    content:"";
+    position:absolute; inset:0;
+    opacity:0.5;
+    background-image:radial-gradient(rgba(43,29,23,0.05) 0.6px, transparent 0.6px);
+    background-size:3px 3px;
+  }
+
+  /* ---------- nav ---------- */
+  header{
+    position:fixed; top:0; left:0; right:0; z-index:100;
+    background:rgba(251,243,236,0.86);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid transparent;
+    transition:border-color 0.4s ease, box-shadow 0.4s ease;
+  }
+  header.scrolled{ border-bottom-color:var(--line); box-shadow:0 8px 24px -20px rgba(43,29,23,0.5); }
+  nav{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:20px 6vw; max-width:1280px; margin:0 auto;
+  }
+  .logo{ font-family:var(--display); font-weight:600; font-size:1.25rem; }
+  .logo span{ color:var(--terracotta); }
+  .back-link{
+    font-family:var(--mono); font-size:0.8rem; letter-spacing:0.03em;
+    display:flex; align-items:center; gap:8px; color:var(--ink-soft);
+    transition:color 0.3s ease, gap 0.3s ease;
+  }
+  .back-link:hover{ color:var(--ink); gap:12px; }
+
+  /* ---------- page head ---------- */
+  .page-head{ padding:150px 0 80px; }
+  .page-head h1{
+    font-family:var(--display); font-weight:600;
+    font-size:clamp(2.6rem, 6.4vw, 5rem);
+    line-height:1.02; margin-top:18px; max-width:16ch;
+  }
+  .page-head h1 em{ font-style:italic; color:var(--terracotta); font-weight:450; }
+  .page-head p{
+    margin-top:24px; color:var(--ink-soft); font-size:1.08rem;
+    max-width:56ch; line-height:1.75;
+  }
+
+  /* ---------- project intro ---------- */
+  .project{ padding:40px 0 120px; border-top:1px solid var(--line); }
+
+  .project-head{
+    padding:70px 0 56px;
+    display:grid; grid-template-columns:1.3fr 1fr; gap:6vw; align-items:end;
+  }
+  .project-title{
+    font-family:var(--display); font-weight:700;
+    font-size:clamp(3.2rem, 9vw, 7.5rem);
+    line-height:0.9; letter-spacing:-0.01em;
+  }
+  .project-tagline{
+    font-family:var(--mono); font-size:0.85rem; letter-spacing:0.1em;
+    text-transform:uppercase; color:var(--terracotta); margin-top:14px;
+  }
+
+  .project-meta{
+    font-family:var(--mono); font-size:0.8rem; color:var(--ink-soft);
+    line-height:2; border-left:1px solid var(--line); padding-left:22px;
+  }
+  .project-meta strong{ color:var(--ink); font-weight:700; }
+
+  .tag-row{ display:flex; flex-wrap:wrap; gap:9px; margin-top:34px; }
+  .tag-pill{
+    font-family:var(--mono); font-size:0.74rem;
+    border:1px solid var(--ink); padding:7px 15px;
+    transition:transform 0.25s ease, background 0.25s ease, color 0.25s ease;
+  }
+  .tag-pill:hover{ background:var(--ink); color:var(--paper); transform:translateY(-2px); }
+
+  .project-copy{
+    max-width:760px; padding-top:12px;
+  }
+  .project-copy p{ font-size:1.1rem; line-height:1.85; color:var(--ink); margin-bottom:24px; }
+  .project-copy p:first-child{
+    font-family:var(--display); font-size:1.55rem; font-weight:450;
+    line-height:1.55; color:var(--ink);
+  }
+  .project-copy p:last-child{ margin-bottom:0; color:var(--ink-soft); }
+
+  /* ---------- masonry gallery ---------- */
+  .gallery-head{
+    display:flex; align-items:baseline; justify-content:space-between;
+    padding:80px 0 30px; border-top:1px solid var(--line); margin-top:70px;
+    flex-wrap:wrap; gap:14px;
+  }
+  .gallery-head h2{
+    font-family:var(--display); font-weight:600; font-size:clamp(1.6rem,3vw,2.2rem);
+  }
+  .gallery-hint{
+    font-family:var(--mono); font-size:0.72rem; color:var(--ink-soft);
+    letter-spacing:0.04em; text-transform:uppercase;
+    display:flex; align-items:center; gap:8px;
+  }
+  .gallery-hint svg{ width:14px; height:14px; }
+
+  .masonry{
+    columns:3 320px;
+    column-gap:18px;
+  }
+  .g-item{
+    break-inside:avoid;
+    margin-bottom:18px;
+    position:relative;
+    cursor:zoom-in;
+    overflow:hidden;
+    background:var(--paper-warm);
+  }
+  .g-item img{
+    width:100%; height:auto; display:block;
+    transition:transform 0.7s cubic-bezier(.19,1,.22,1), filter 0.5s ease;
+  }
+  .g-item:hover img{ transform:scale(1.045); }
+
+  .g-item .cm-tl, .g-item .cm-tr, .g-item .cm-bl, .g-item .cm-br{
+    content:""; position:absolute; width:16px; height:16px;
+    opacity:0; transition:opacity 0.35s ease; pointer-events:none; z-index:2;
+  }
+  .g-item .cm-tl{ top:10px; left:10px; border-top:1.5px solid #fff; border-left:1.5px solid #fff; }
+  .g-item .cm-tr{ top:10px; right:10px; border-top:1.5px solid #fff; border-right:1.5px solid #fff; }
+  .g-item .cm-bl{ bottom:10px; left:10px; border-bottom:1.5px solid #fff; border-left:1.5px solid #fff; }
+  .g-item .cm-br{ bottom:10px; right:10px; border-bottom:1.5px solid #fff; border-right:1.5px solid #fff; }
+  .g-item:hover .cm-tl, .g-item:hover .cm-tr, .g-item:hover .cm-bl, .g-item:hover .cm-br{ opacity:0.9; }
+
+  .g-item::after{
+    content:"";
+    position:absolute; inset:0;
+    background:linear-gradient(180deg, rgba(0,0,0,0) 60%, rgba(0,0,0,0.28) 100%);
+    opacity:0; transition:opacity 0.4s ease;
+  }
+  .g-item:hover::after{ opacity:1; }
+
+  .g-num{
+    position:absolute; bottom:14px; left:14px; z-index:2;
+    font-family:var(--mono); font-size:0.72rem; color:#fff;
+    opacity:0; transform:translateY(6px);
+    transition:opacity 0.35s ease, transform 0.35s ease;
+  }
+  .g-item:hover .g-num{ opacity:1; transform:translateY(0); }
+
+  /* ---------- lightbox ---------- */
+  .lightbox{
+    position:fixed; inset:0; z-index:1000;
+    background:rgba(20,13,10,0.94);
+    display:flex; align-items:center; justify-content:center;
+    opacity:0; visibility:hidden; pointer-events:none;
+    transition:opacity 0.4s ease;
+  }
+  .lightbox.open{ opacity:1; visibility:visible; pointer-events:auto; }
+
+  .lb-figure{
+    max-width:88vw; max-height:82vh;
+    display:flex; align-items:center; justify-content:center;
+    transform:scale(0.96); transition:transform 0.4s cubic-bezier(.19,1,.22,1);
+  }
+  .lightbox.open .lb-figure{ transform:scale(1); }
+  .lb-figure img{
+    max-width:88vw; max-height:82vh; width:auto; height:auto;
+    box-shadow:0 40px 80px -20px rgba(0,0,0,0.6);
+  }
+
+  .lb-close, .lb-prev, .lb-next{
+    position:absolute; background:transparent; border:1px solid rgba(255,255,255,0.3);
+    color:#fff; border-radius:50%; width:46px; height:46px;
+    display:flex; align-items:center; justify-content:center;
+    transition:background 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
+  }
+  .lb-close:hover, .lb-prev:hover, .lb-next:hover{ background:rgba(255,255,255,0.12); border-color:rgba(255,255,255,0.6); }
+  .lb-close{ top:26px; right:26px; }
+  .lb-prev{ left:26px; top:50%; transform:translateY(-50%); }
+  .lb-next{ right:26px; top:50%; transform:translateY(-50%); }
+  .lb-prev:hover, .lb-next:hover{ transform:translateY(-50%) scale(1.08); }
+  .lb-close svg, .lb-prev svg, .lb-next svg{ width:18px; height:18px; }
+
+  .lb-counter{
+    position:absolute; bottom:26px; left:50%; transform:translateX(-50%);
+    font-family:var(--mono); font-size:0.78rem; color:rgba(255,255,255,0.75);
+    letter-spacing:0.06em;
+  }
+
+  /* ---------- footer nav ---------- */
+  .project-footer{
+    padding:90px 0 60px; border-top:1px solid var(--line); margin-top:90px;
+    display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:20px;
+  }
+  .project-footer p{ font-family:var(--display); font-size:1.4rem; font-weight:450; max-width:32ch; }
+  .footer-link{
+    font-family:var(--mono); font-size:0.85rem; border:1px solid var(--ink);
+    padding:13px 26px; display:inline-flex; align-items:center; gap:10px;
+    transition:background 0.3s ease, color 0.3s ease;
+  }
+  .footer-link:hover{ background:var(--ink); color:var(--paper); }
+
+  footer.site-footer{
+    border-top:1px solid var(--line); padding:28px 0;
+    font-family:var(--mono); font-size:0.74rem; color:var(--ink-soft);
+  }
+  .footer-inner{ display:flex; justify-content:space-between; align-items:center; }
+
+  /* ---------- responsive ---------- */
+  @media (max-width:900px){
+    .project-head{ grid-template-columns:1fr; gap:26px; }
+    .project-meta{ border-left:none; border-top:1px solid var(--line); padding-left:0; padding-top:16px; }
+    .masonry{ columns:2 220px; }
+  }
+  @media (max-width:560px){
+    .masonry{ columns:1; }
+    .lb-prev, .lb-next{ width:38px; height:38px; }
+    .lb-close{ width:38px; height:38px; top:16px; right:16px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="ambient"></div>
+
+<header id="siteHeader">
+  <nav>
+    <a href="index.html" class="logo">Khadija<span>.</span></a>
+    <a href="index.html#work" class="back-link">&larr; Back to portfolio</a>
+  </nav>
+</header>
+
+<main>
+
+  <section class="page-head wrap">
+    <p class="eyebrow reveal">Selected Category</p>
+    <h1 class="reveal">Brand <em>Identity</em> Design.</h1>
+    <p class="reveal">Full identity systems — logotypes, mascots, packaging, and the small details that make a brand feel like somewhere you want to return to. Starting with the project below.</p>
+  </section>
+
+  <section class="project wrap">
+
+    <div class="project-head">
+      <div>
+        <p class="project-tagline reveal">Melt the mood</p>
+        <h2 class="project-title reveal">Buttr</h2>
+        <div class="tag-row reveal">
+          <span class="tag-pill">Branding</span>
+          <span class="tag-pill">Mascot</span>
+          <span class="tag-pill">Bakery</span>
+          <span class="tag-pill">Packaging</span>
+        </div>
+      </div>
+      <div class="project-meta reveal">
+        <div><strong>Project</strong> — Buttr Butterbread</div>
+        <div><strong>Year</strong> — 2026</div>
+        <div><strong>Scope</strong> — Identity, Mascot, Packaging, Collateral</div>
+        <div><strong>Role</strong> — Brand &amp; Visual Designer</div>
+      </div>
+    </div>
+
+    <div class="project-copy">
+      <p class="reveal">Buttr began with a simple question: what does comfort actually look like?</p>
+      <p class="reveal">Every neighbourhood has a place people return to without quite knowing why — where the smell of butter and yeast hits before the door does, and five minutes turns into forty. Buttr is that place, built into a brand. The name itself is a small piece of design: warm, round, a little playful, melting the extra vowel the way butter melts into fresh bread.</p>
+      <p class="reveal">At the centre of the identity is a mascot with no hard edges — a soft, doughy character that turns up on cups, packaging, and signage doing exactly what you'd want a fresh bake to do: sit there looking pleased with itself. Paired with a rounded, confident wordmark and a palette pulled straight from the bakery case — toasted terracotta, warm cream, golden brown — the system was built to feel less like branding and more like something you'd want to hold onto, fold into a tote bag, or wear home.</p>
+      <p class="reveal">The goal wasn't just recognition. It was to give people a reason to feel something the moment they see the logo — a little warmth, a little familiarity, the sense that someone thought about their morning before they even walked in.</p>
+    </div>
+
+    <div class="gallery-head reveal">
+      <h2>The Work</h2>
+      <span class="gallery-hint">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35" d="M21 21l-4.35-4.35"/></svg>
+        Click any image to expand
+      </span>
+    </div>
+
+    <div class="masonry reveal" id="masonry"></div>
+
+  </section>
+
+  <section class="wrap">
+    <div class="project-footer">
+      <p>More brand identity projects are on their way — check back soon.</p>
+      <a href="index.html#work" class="footer-link">All work &rarr;</a>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap footer-inner">
+    <span>© 2026 Khadija. All rights reserved.</span>
+    <span>Brand Identity Design — Buttr</span>
+  </div>
+</footer>
+
+<!-- lightbox -->
+<div class="lightbox" id="lightbox">
+  <button class="lb-close" id="lbClose" aria-label="Close">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 6l12 12M18 6L6 18"/></svg>
+  </button>
+  <button class="lb-prev" id="lbPrev" aria-label="Previous">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M15 6l-6 6 6 6"/></svg>
+  </button>
+  <div class="lb-figure">
+    <img id="lbImg" src="" alt="">
+  </div>
+  <button class="lb-next" id="lbNext" aria-label="Next">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 6l6 6-6 6"/></svg>
+  </button>
+  <div class="lb-counter" id="lbCounter"></div>
+</div>
+
+<script>
+  // ---------- project images ----------
+  const images = [
+    { src:"assets/buttr/buttr-1.jpg",  caption:"Hero — brand key visual" },
+    { src:"assets/buttr/buttr-2.jpg",  caption:"Storefront signage" },
+    { src:"assets/buttr/buttr-3.jpg",  caption:"Cup system" },
+    { src:"assets/buttr/buttr-4.jpg",  caption:"Pastry box packaging" },
+    { src:"assets/buttr/buttr-5.jpg",  caption:"Bakery in process" },
+    { src:"assets/buttr/buttr-6.jpg",  caption:"Menu system" },
+    { src:"assets/buttr/buttr-7.jpg",  caption:"Bakery bag detail" },
+    { src:"assets/buttr/buttr-8.jpg",  caption:"Brewing moment" },
+    { src:"assets/buttr/buttr-9.jpg",  caption:"Packaging pattern detail" },
+    { src:"assets/buttr/buttr-10.jpg", caption:"Receipt design" },
+    { src:"assets/buttr/buttr-11.jpg", caption:"Embroidered cap" },
+    { src:"assets/buttr/buttr-12.jpg", caption:"Tote bag" },
+    { src:"assets/buttr/buttr-13.jpg", caption:"Apparel detail" },
+    { src:"assets/buttr/buttr-14.jpg", caption:"Lifestyle moment" },
+    { src:"assets/buttr/buttr-15.jpg", caption:"Social media system" },
+  ];
+
+  const masonry = document.getElementById('masonry');
+  masonry.innerHTML = images.map((img, i) => `
+    <div class="g-item" data-index="${i}">
+      <img src="${img.src}" alt="Buttr — ${img.caption}" loading="lazy">
+      <span class="cm-tl"></span><span class="cm-tr"></span><span class="cm-bl"></span><span class="cm-br"></span>
+      <span class="g-num">${String(i+1).padStart(2,'0')} — ${img.caption}</span>
+    </div>
+  `).join('');
+
+  // ---------- lightbox logic ----------
+  const lightbox = document.getElementById('lightbox');
+  const lbImg = document.getElementById('lbImg');
+  const lbCounter = document.getElementById('lbCounter');
+  let current = 0;
+
+  function openLightbox(i){
+    current = i;
+    updateLightbox();
+    lightbox.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeLightbox(){
+    lightbox.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  function updateLightbox(){
+    lbImg.src = images[current].src;
+    lbImg.alt = images[current].caption;
+    lbCounter.textContent = `${String(current+1).padStart(2,'0')} / ${String(images.length).padStart(2,'0')} — ${images[current].caption}`;
+  }
+  function nextImg(){ current = (current + 1) % images.length; updateLightbox(); }
+  function prevImg(){ current = (current - 1 + images.length) % images.length; updateLightbox(); }
+
+  masonry.addEventListener('click', (e) => {
+    const item = e.target.closest('.g-item');
+    if(item) openLightbox(parseInt(item.dataset.index, 10));
+  });
+
+  document.getElementById('lbClose').addEventListener('click', closeLightbox);
+  document.getElementById('lbNext').addEventListener('click', nextImg);
+  document.getElementById('lbPrev').addEventListener('click', prevImg);
+  lightbox.addEventListener('click', (e) => { if(e.target === lightbox) closeLightbox(); });
+
+  document.addEventListener('keydown', (e) => {
+    if(!lightbox.classList.contains('open')) return;
+    if(e.key === 'Escape') closeLightbox();
+    if(e.key === 'ArrowRight') nextImg();
+    if(e.key === 'ArrowLeft') prevImg();
+  });
+
+  // ---------- scroll reveal ----------
+  const revealEls = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
+    });
+  }, { threshold:0.1, rootMargin:'0px 0px -50px 0px' });
+  revealEls.forEach(el => io.observe(el));
+
+  // ---------- header on scroll ----------
+  const header = document.getElementById('siteHeader');
+  window.addEventListener('scroll', () => {
+    header.classList.toggle('scrolled', window.scrollY > 40);
+  });
+</script>
+
+</body>
+</html>
